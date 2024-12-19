@@ -125,9 +125,7 @@ def merge_left(board):
             if (board[row][col] != 0):
                 # Cell is non-empty
                 search_col = col + 1
-                        # If we found a cell of a higher number, ignore the rest of matches, this cell is blocking.
-                while (search_col != num_of_cols and board[row][search_col] <= board[row][col]):
-                    # Search for matching cells to merge
+                while (search_col != num_of_cols and (board[row][search_col] == 0 or board[row][search_col] == board[row][col])): # If we found a cell of a higher number, ignore the rest of matches, this cell is blocking.
                     if (board[row][search_col] == board[row][col]):
                         merge(row, col, row, search_col, board)
                         break
@@ -142,8 +140,7 @@ def merge_right(board):
             if (board[row][col] != 0):
                 # Cell is non-empty
                 search_col = col - 1
-                        # If we found a cell of a higher number, ignore the rest of matches, this cell is blocking.
-                while (search_col != -1 and board[row][search_col] <= board[row][col]):
+                while (search_col != -1 and (board[row][search_col] == 0 or board[row][search_col] == board[row][col])): # If we found a cell of a higher number, ignore the rest of matches, this cell is blocking.
                     # Search for matching cells to merge
                     if (board[row][search_col] == board[row][col]):
                         merge(row, col, row, search_col, board)
@@ -159,8 +156,7 @@ def merge_up(board):
             if (board[row][col] != 0):
                 # Cell is non-empty
                 search_row = row + 1
-                        # If we found a cell of a higher number, ignore the rest of matches, this cell is blocking.
-                while (search_row != num_of_rows and board[search_row][col] <= board[row][col]):
+                while (search_row != num_of_rows and (board[search_row][col] == 0 or board[search_row][col] == board[row][col])): # If we found a cell of a higher number, ignore the rest of matches, this cell is blocking.
                     # Search for matching cells to merge
                     if (board[search_row][col] == board[row][col]):
                         merge(row, col, search_row, col, board)
@@ -177,7 +173,7 @@ def merge_down(board):
                 # Cell is non-empty
                 search_row = row - 1
                         # If we found a cell of a higher number, ignore the rest of matches, this cell is blocking.
-                while (search_row != -1 and board[search_row][col] <= board[row][col]):
+                while (search_row != -1 and (board[search_row][col] == 0 or board[search_row][col] == board[row][col])):
                     # Search for matching cells to merge
                     if (board[search_row][col] == board[row][col]):
                         merge(row, col, search_row, col, board)
@@ -188,7 +184,12 @@ def merge_down(board):
 
 
 def main():
-    board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+    board = [
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0]
+    ]
 
     cont = True
 
@@ -208,6 +209,7 @@ def main():
             print("Left")
             board = merge_left(board)
             board = shift_left(board)
+
         elif (move == "d"):
             # Right
             print("Right")
